@@ -32,6 +32,8 @@ kotlin {
         }
     }
 
+
+
     cocoapods {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
@@ -62,7 +64,8 @@ kotlin {
 
 
     sourceSets {
-        
+
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
@@ -70,6 +73,12 @@ kotlin {
             implementation(libs.maps.compose)
             implementation(libs.maps.compose.utils)
             implementation(libs.play.services.maps)
+            implementation(libs.directions)
+            implementation(libs.play.location)
+
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -80,6 +89,33 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+
+            implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.jetbrains.compose.navigation)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.sqlite.bundled)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            api(libs.koin.core)
+
+            implementation(libs.bundles.ktor)
+            implementation(libs.bundles.coil)
+
+            implementation(libs.moko.permissions)
+            implementation(libs.kotlinx.datetime)
+
+            api(libs.datastore)
+            api(libs.datastore.preferences)
+        }
+
+        nativeMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+
+        dependencies {
+            ksp(libs.androidx.room.compiler)
         }
     }
 }
@@ -109,9 +145,13 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
 }
 
 dependencies {
+    implementation(libs.androidx.ui.android)
+    implementation(libs.places)
     debugImplementation(compose.uiTooling)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 }
 

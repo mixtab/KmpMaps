@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="search_hint">Search...</string>
+    <string name="close_hint">Clear search</string>
+    <string name="search_results">Search Results</string>>
+    <string name="languages">Languages</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="go_back">Go back</string>
+    <string name="error_disk_full">Oops, it seems like your disk is full.</string>
+    <string name="error_unknown">Oops, something went wrong.</string>
+    <string name="error_request_timeout">The request timed out.</string>
+    <string name="error_no_internet">Couldn't reach server, please check your internet connection.</string>
+    <string name="error_too_many_requests">Your quota seems to be exceeded.</string>
+    <string name="error_serialization">Couldn't parse data.</string>
+
+
+    <string name="map_add_your_first_stop">Search the place to start\n creating your route</string>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_distance_unit">Distance unit</string>
+    <string name="settings_logout">Logout</string>
+
+    <string name="theme_follow_system">Follow system</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+
+    <string name="language_ua">Ukraine</string>
+    <string name="language_en">English</string>
+
+    <string name="distance_unit_km">Kilometers</string>
+    <string name="distance_unit_miles">Miles</string>
+
+    <string name="marked_location">Marked location</string>
+    <string name="remove_marker">Remove marker</string>
+
+    <string name="edit_marker_title">Save/Edit Marker</string>
+    <string name="edit_marker_title_label">Title</string>
+    <string name="edit_marker_comment_label">Comment(optional)</string>
+
+    <string name="save_common">Save</string>
+    <string name="cancel_common">Cancel</string>
+    <string name="add_stops">Add stops</string>
+    <string name="add_new_stop">Add a new stop</string>
+
+    <string name="markers_title">Markers</string>
+
+    <string name="markers_option_place_options">Place options</string>
+    <string name="markers_option_build_route">Build route</string>
+    <string name="markers_option_edit">Edit</string>
+    <string name="markers_option_share">Share</string>
+    <string name="markers_option_delete">Delete</string>
+    <string name="marker_deleted">Marker deleted</string>
+    <string name="marker_empty_placeholder">You don't have any\n markers yet</string>
+</resources>

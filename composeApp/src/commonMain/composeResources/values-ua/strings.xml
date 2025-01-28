@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="search_hint">Пошук...</string>
+    <string name="close_hint">Очистити пошук</string>
+    <string name="search_results">Результати пошуку</string>
+    <string name="favorites">Вибране</string>
+    <string name="no_search_results">На жаль, за вашим запитом немає жодної книги.</string>
+    <string name="no_favorite_books">Поки що немає обраних книг.</string>
+    <string name="book_cover">Обкладинка книги</string>
+    <string name="rating">Рейтинг</string>
+    <string name="pages">Сторінки</string>
+    <string name="languages">Мови</string>
+    <string name="synopsis">Анотація</string>
+    <string name="go_back">Повернутися назад</string>
+    <string name="mark_as_favorite">Додати до вибраного</string>
+    <string name="remove_from_favorites">Видалити з вибраного</string>
+    <string name="description_unavailable">Опис недоступний.</string>
+    <string name="error_disk_full">На жаль, здається, ваш диск заповнений.</string>
+    <string name="error_unknown">На жаль, сталася помилка.</string>
+    <string name="error_request_timeout">Час запиту вичерпано.</string>
+    <string name="error_no_internet">Не вдалося підключитися до сервера, перевірте своє інтернет-з'єднання.</string>
+    <string name="error_too_many_requests">Схоже, ваш ліміт перевищено.</string>
+    <string name="error_serialization">Не вдалося обробити дані.</string>
+
+    <string name="map_add_your_first_stop">Додайте першу зупинку, щоб почати\n створювати свій маршрут</string>
+
+    <string name="settings_title">Налаштування</string>
+    <string name="settings_language">Мова</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_distance_unit">Одиниця відстані</string>
+    <string name="settings_logout">Вийти</string>
+
+    <string name="theme_follow_system">Авто</string>
+    <string name="theme_light">Світла</string>
+    <string name="theme_dark">Темна</string>
+
+    <string name="language_ua">Українська</string>
+    <string name="language_en">Англійська</string>
+
+    <string name="distance_unit_km">Кілометри</string>
+    <string name="distance_unit_miles">Милі</string>
+
+    <string name="marked_location">Позначене місце</string>
+</resources>
