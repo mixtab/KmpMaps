@@ -10,9 +10,9 @@ interface IMarkerRepository {
 
     fun getMarkers(): Flow<List<Marker>>
 
-    suspend fun getMarker(id: String): DomainResult<Marker, DataError.Remote>
+    suspend fun getMarker(id: String): DomainResult<Marker>
 
-    suspend fun deleteMarker(id: String): DomainResult<Unit, DataError.Remote>
+    suspend fun deleteMarker(id: String): DomainResult<Unit>
 
-    suspend fun upsertMarker(marker: Marker): DomainResult<Unit, DataError.Remote>
+    suspend fun upsertMarker(marker: Marker): DomainResult<Unit>
 }

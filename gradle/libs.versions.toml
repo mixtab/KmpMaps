@@ -27,13 +27,16 @@ datetime = "0.6.0"
 
 mapsCompose = "5.0.4"
 playServicesMaps = "19.0.0"
-mokoPermissions = "0.18.1"
+
+android-permissions = "0.31.0-alpha"
 datastore = "1.1.1"
 playServicesLocation = "21.3.0"
 uiAndroid = "1.7.6"
 
 pods-google-maps = "9.1.1"
 pods-google-ios-maps-utils = "6.0.0"
+pods-google-places = "9.3.0"
+
 places = "4.1.0"
 directions = "2.2.0"
 
@@ -53,7 +56,6 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
-moko-permissions = { module = "dev.icerock.moko:permissions-compose", version.ref = "mokoPermissions" }
 
 jetbrains-compose-navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref= "navigationCompose"}
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
@@ -63,6 +65,8 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "android-permissions" }
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }

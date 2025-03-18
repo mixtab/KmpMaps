@@ -62,7 +62,7 @@ fun MapDefaultBottomSheetContent(
     val keyboard = LocalSoftwareKeyboardController.current
 
     Column(
-        Modifier.height((getScreenHeight().value * 0.8).dp)
+        Modifier.height((getScreenHeight().value * 0.7).dp)
             .padding(horizontal = 16.dp)
     ) {
 
@@ -82,8 +82,7 @@ fun MapDefaultBottomSheetContent(
                 scope.launch {
                     if (hasFocus)
                         bottomSheetState.expand()
-                    else
-                        bottomSheetState.partialExpand()
+
                 }
             },
             onValueChange = { onSearchValueChanged(it) }

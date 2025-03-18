@@ -8,6 +8,7 @@ target 'iosApp' do
   pod 'composeApp', :path => '../composeApp'
   pod 'GoogleMaps', '9.1.1'
   pod 'Google-Maps-iOS-Utils', '6.0.0'
+  pod 'GooglePlaces', '9.3.0'
 
   # Pods for iosApp
 

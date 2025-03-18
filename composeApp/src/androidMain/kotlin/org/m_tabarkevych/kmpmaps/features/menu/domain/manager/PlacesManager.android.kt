@@ -43,7 +43,7 @@ actual class PlacesManager {
     actual fun calculateRoute(
         startPosition: Coordinates,
         endPosition: Coordinates,
-    ): Flow<DomainResult<List<RouteInfo>, DataError.Remote>> = callbackFlow {
+    ): Flow<DomainResult<List<RouteInfo>>> = callbackFlow {
         val mGeoApiContext = GeoApiContext.Builder()
             .apiKey("AIzaSyAYDqJ1OWT4xqvlY1S2j-f_m3x9_OqmrTE")
             .connectTimeout(DEFAULT_REQUEST_TIME_OUT, TimeUnit.SECONDS)
@@ -67,7 +67,7 @@ actual class PlacesManager {
             ).setCallback(object : PendingResult.Callback<DirectionsResult> {
                 override fun onResult(result: DirectionsResult) {
 
-                  val routes =  result.routes.map { route ->
+                    val routes = result.routes.map { route ->
                         val coordinates: MutableList<Coordinates> = mutableListOf()
                         route.overviewPolyline.decodePath().forEach {
                             coordinates.add(Coordinates(it.lat, it.lng))
@@ -87,7 +87,7 @@ actual class PlacesManager {
 
                 override fun onFailure(e: Throwable) {
                     trySendBlocking(
-                        DomainResult.Error(DataError.Remote.UNKNOWN)
+                        DomainResult.Failure(DataError.UNKNOWN)
                     )
                 }
             })
@@ -98,7 +98,7 @@ actual class PlacesManager {
     actual fun fetchPlacesByText(
         searchValue: String,
         userPosition: Coordinates,
-    ): Flow<DomainResult<List<SearchResult>, DataError.Remote>> = callbackFlow {
+    ): Flow<DomainResult<List<SearchResult>>> = callbackFlow {
 
 
         val token = AutocompleteSessionToken.newInstance()
@@ -111,9 +111,10 @@ actual class PlacesManager {
                 .build()
         placesClient.findAutocompletePredictions(request)
             .addOnSuccessListener { response: FindAutocompletePredictionsResponse ->
+
                 trySend(DomainResult.Success(response.autocompletePredictions.toSearchResult()))
             }.addOnFailureListener { exception: Exception? ->
-                trySend(DomainResult.Error(DataError.Remote.UNKNOWN))
+                trySend(DomainResult.Failure(DataError.UNKNOWN))
             }
 
         awaitClose()
@@ -122,24 +123,33 @@ actual class PlacesManager {
 
     actual fun fetchInfoForCoordinates(
         coordinates: Coordinates,
-    ): Flow<DomainResult<SearchResult, DataError.Remote>> = callbackFlow {
+    ): Flow<DomainResult<SearchResult>> = callbackFlow {
 
         val geocoder = Geocoder(KmpMapsApplication.instance, Locale.getDefault())
-        val addresses  = geocoder.getFromLocation(coordinates.lat, coordinates.lng, 1)
+        val addresses = geocoder.getFromLocation(coordinates.lat, coordinates.lng, 1)
 
         if (!addresses.isNullOrEmpty()) {
-            val address: Address = addresses.firstOrNull()?:return@callbackFlow
+            val address: Address = addresses.firstOrNull() ?: return@callbackFlow
 
 
             val addressLine = address.getAddressLine(0) // Повна адреса
-            trySend(DomainResult.Success(SearchResult("-1", address.featureName?:"Marked place", addressLine, 0)))
+            trySend(
+                DomainResult.Success(
+                    SearchResult(
+                        "-1",
+                        address.featureName ?: "Marked place",
+                        addressLine,
+                        0
+                    )
+                )
+            )
         }
 
         awaitClose()
 
     }
 
-    actual fun fetchPlaceInfoById(placeId: String): Flow<DomainResult<Coordinates, DataError.Remote>> =
+    actual fun fetchPlaceInfoById(placeId: String): Flow<DomainResult<Coordinates>> =
         callbackFlow {
             val request =
                 FetchPlaceRequest.newInstance(
@@ -151,7 +161,7 @@ actual class PlacesManager {
                 .addOnSuccessListener { response: FetchPlaceResponse ->
                     val latLng = response.place.latLng
                     if (latLng == null) {
-                        trySend(DomainResult.Error(DataError.Remote.UNKNOWN))
+                        trySend(DomainResult.Failure(DataError.UNKNOWN))
                     } else {
                         trySend(
                             DomainResult.Success(
@@ -163,7 +173,7 @@ actual class PlacesManager {
                         )
                     }
                 }.addOnFailureListener {
-                    trySend(DomainResult.Error(DataError.Remote.UNKNOWN))
+                    trySend(DomainResult.Failure(DataError.UNKNOWN))
                 }
 
             awaitClose()

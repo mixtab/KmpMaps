@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
+import org.m_tabarkevych.kmpmaps.app.AppLogger
 import org.m_tabarkevych.kmpmaps.features.core.domain.client.LocationClient
 import org.m_tabarkevych.kmpmaps.features.core.domain.onSuccess
 import org.m_tabarkevych.kmpmaps.features.map.domain.model.Coordinates
@@ -36,7 +37,8 @@ class BuildRouteDelegate(
             endCoordinates
         ).collectLatest {
             it.onSuccess { routes ->
-                _routeInfoState.update { routes.first() }
+                AppLogger.i("BuildRouteDelegate", "onSuccess")
+                _routeInfoState.update { routes.firstOrNull() }
             }
         }
     }

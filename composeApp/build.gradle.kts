@@ -56,6 +56,12 @@ kotlin {
             extraOpts += listOf("-compiler-option", "-fmodules")
         }
 
+        pod("GooglePlaces") {
+            moduleName = "GooglePlaces"
+            version = libs.versions.pods.google.places.get()
+            extraOpts += listOf("-compiler-option", "-fmodules")
+        }
+
     }
 
     room {
@@ -75,10 +81,10 @@ kotlin {
             implementation(libs.play.services.maps)
             implementation(libs.directions)
             implementation(libs.play.location)
-
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.accompanist.permissions)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -102,8 +108,7 @@ kotlin {
 
             implementation(libs.bundles.ktor)
             implementation(libs.bundles.coil)
-
-            implementation(libs.moko.permissions)
+            
             implementation(libs.kotlinx.datetime)
 
             api(libs.datastore)

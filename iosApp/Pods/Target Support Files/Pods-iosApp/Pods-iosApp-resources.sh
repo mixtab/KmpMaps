@@ -98,10 +98,12 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/GoogleMaps/GoogleMapsResources.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/GooglePlaces/GooglePlacesResources.bundle"
   install_resource "${PODS_ROOT}/../../composeApp/build/compose/cocoapods/compose-resources"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/GoogleMaps/GoogleMapsResources.bundle"
+  install_resource "${PODS_CONFIGURATION_BUILD_DIR}/GooglePlaces/GooglePlacesResources.bundle"
   install_resource "${PODS_ROOT}/../../composeApp/build/compose/cocoapods/compose-resources"
 fi
 

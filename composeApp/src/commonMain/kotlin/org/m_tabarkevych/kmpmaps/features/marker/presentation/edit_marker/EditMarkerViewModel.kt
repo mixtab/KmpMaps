@@ -29,7 +29,7 @@ class EditMarkerViewModel(
     override val uiState: StateFlow<EditMarkerUiState> = _uiState.asStateFlow().onStart {
         getMarkerUseCase.invoke(markerId).onSuccess {
             _uiState.value = _uiState.value.copy(
-                marker = it.toMarkerUi(),
+                marker = it,
                 titleInputValue = it.title,
                 commentInputValue = it.comment
             )
@@ -49,12 +49,21 @@ class EditMarkerViewModel(
                 _uiState.value = _uiState.value.copy(titleInputValue = event.title)
             }
 
-            EditMarkerUiEvent.OnSaveClicked -> {
-                viewModelScope.launch {
-                    bookmarkMarkerUseCase.invoke(currentState.marker ?: return@launch)
-                    setUiEffect { EditMarkerUiEffect.NavigateBack }
-                }
-            }
+            EditMarkerUiEvent.OnSaveClicked -> saveMarker()
+
+        }
+    }
+
+    private fun saveMarker() {
+        viewModelScope.launch {
+            bookmarkMarkerUseCase.invoke(
+                currentState.marker?.copy(
+                    title = currentState.titleInputValue,
+                    comment = currentState.commentInputValue
+                ) ?: return@launch
+            )
+
+            setUiEffect { EditMarkerUiEffect.NavigateBack }
         }
     }
 }

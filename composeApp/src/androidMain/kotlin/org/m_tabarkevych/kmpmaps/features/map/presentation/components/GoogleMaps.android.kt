@@ -74,12 +74,14 @@ actual fun GoogleMaps(
                 }
 
                 is MapAction.ZoomToBounds ->  {
-                    val bounds = LatLngBounds.Builder()
-                        .include(it.bounds.first().toLatLng())
-                        .include(it.bounds.last().toLatLng())
-                        .build()
+                    val bounds = LatLngBounds.Builder().apply {
+                        it.bounds.forEach { coordinate ->
+                            include(coordinate.toLatLng())
+                        }
+                    }.build()
+
                     cameraPositionState.animate(
-                        update = CameraUpdateFactory.newLatLngBounds(bounds, 600),
+                        update = CameraUpdateFactory.newLatLngBounds(bounds, 200),
                         durationMs = 1000
                     )
                 }

@@ -1,5 +1,4 @@
-package org.m_tabarkevych.kmpmaps.features.core.data.datastore/*
-package org.m_tabarkevych.kmpmaps.features.core.data
+package org.m_tabarkevych.kmpmaps.features.core.data.datastore
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
@@ -42,4 +41,4 @@ object HttpClientFactory {
             }
         }
     }
-}*/
+}

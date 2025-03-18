@@ -6,6 +6,7 @@ import org.m_tabarkevych.kmpmaps.di.modules.database.databaseFactoryModule
 import org.m_tabarkevych.kmpmaps.di.modules.client.clientModule
 import org.m_tabarkevych.kmpmaps.di.modules.database.databaseModule
 import org.m_tabarkevych.kmpmaps.di.modules.database.preferencesModule
+import org.m_tabarkevych.kmpmaps.di.modules.datasource.dataSourceModule
 import org.m_tabarkevych.kmpmaps.di.modules.delegate.delegateModule
 import org.m_tabarkevych.kmpmaps.di.modules.manager.managerModule
 import org.m_tabarkevych.kmpmaps.di.modules.repository.repositoryModule
@@ -17,13 +18,14 @@ fun initKoin(config: KoinAppDeclaration? = null) {
     val sharedModule = listOf(
         viewModelModule,
         delegateModule,
-        repositoryModule,
-        preferencesModule,
         useCaseModule,
         databaseFactoryModule,
         databaseModule,
         clientModule,
-        managerModule
+        managerModule,
+        repositoryModule,
+        preferencesModule,
+        dataSourceModule,
     )
 
     startKoin {

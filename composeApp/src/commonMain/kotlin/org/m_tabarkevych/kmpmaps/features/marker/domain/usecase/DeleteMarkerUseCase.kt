@@ -7,7 +7,7 @@ import org.m_tabarkevych.kmpmaps.features.marker.domain.IMarkerRepository
 class DeleteMarkerUseCase(
     private val markerRepository: IMarkerRepository
 ) {
-    suspend operator fun invoke(id: String): DomainResult<Unit, DataError.Remote> {
+    suspend operator fun invoke(id: String): DomainResult<Unit> {
         return markerRepository.deleteMarker(id)
     }
 }

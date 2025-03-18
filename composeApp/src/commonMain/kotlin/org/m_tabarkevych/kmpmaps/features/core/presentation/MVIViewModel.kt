@@ -2,6 +2,7 @@ package org.m_tabarkevych.kmpmaps.features.core.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -18,8 +19,6 @@ abstract class MVIViewModel<State : UiState, Event : UiEvent, Effect : UiEffect>
 
     abstract val uiState: StateFlow<State>
     protected val currentState get() = uiState.value
-
-
 
     private val _effect: MutableSharedFlow<Effect> = MutableSharedFlow()
     val effect = _effect.asSharedFlow()
@@ -40,7 +39,7 @@ abstract class MVIViewModel<State : UiState, Event : UiEvent, Effect : UiEffect>
     }
 
     companion object {
-         const val TAG_STATE = "ScreenUiState"
+        const val TAG_STATE = "ScreenUiState"
         private const val TAG_EVENT = "ScreenUiEvent"
         private const val TAG_EFFECT = "ScreenUiEffect"
     }

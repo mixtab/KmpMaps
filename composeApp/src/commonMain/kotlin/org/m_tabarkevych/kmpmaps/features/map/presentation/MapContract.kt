@@ -8,12 +8,14 @@ import org.m_tabarkevych.kmpmaps.features.map.domain.model.RouteInfo
 import org.m_tabarkevych.kmpmaps.features.map.domain.model.SearchResult
 import org.m_tabarkevych.kmpmaps.features.map.presentation.model.MarkerUi
 import org.m_tabarkevych.kmpmaps.features.settings.domain.model.Theme
+import org.m_tabarkevych.kmpmaps.features.weather.domain.model.WeatherData
 
 data class MapUiState(
     val showLoading: Boolean = false,
     val menuVisible: Boolean = false,
     val locationPermissionGranted: Boolean = false,
     val userLocation: Coordinates? = null,
+    val weatherData:WeatherData? = null,
     val followUser: Boolean = true,
     val isSatelliteView: Boolean = false,
     val theme: Theme = Theme.FOLLOW_SYSTEM,
@@ -24,14 +26,16 @@ data class MapUiState(
     val bottomSheetFoolExpanded: Boolean = false,
     val routeInfo: RouteInfo? = null,
 ) : UiState {
+    val showWeather = !bottomSheetFoolExpanded && weatherData != null
     val showUserLocation = locationPermissionGranted
-    val drawerGesturesEnabled = menuVisible
 
     val bottomSheetType: MapBottomSheetType = when {
         routeInfo != null -> MapBottomSheetType.ROUTE_INFO
         currentMarker != null -> MapBottomSheetType.POI_INFO
         else -> MapBottomSheetType.DEFAULT
     }
+
+    val isBottomSheetGesturesEnabled = bottomSheetType == MapBottomSheetType.DEFAULT
 }
 
 
@@ -42,7 +46,6 @@ enum class MapBottomSheetType {
 sealed interface MapUiEvent : UiEvent {
     data object OnSettingsClicked : MapUiEvent
     data object OnMarkersTitleClicked : MapUiEvent
-    data object OnCalculateRouteClicked : MapUiEvent
     data object OnMenuClicked : MapUiEvent
     data object OnMenuClosed : MapUiEvent
     data object OnRecenterClicked : MapUiEvent

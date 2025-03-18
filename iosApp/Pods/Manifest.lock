@@ -2,6 +2,7 @@ PODS:
   - composeApp (1.0):
     - Google-Maps-iOS-Utils (= 6.0.0)
     - GoogleMaps (= 9.1.1)
+    - GooglePlaces (= 9.3.0)
   - Google-Maps-iOS-Utils (6.0.0):
     - GoogleMaps (~> 9.0)
   - GoogleMaps (9.1.1):
@@ -9,26 +10,30 @@ PODS:
   - GoogleMaps/Base (9.1.1)
   - GoogleMaps/Maps (9.1.1):
     - GoogleMaps/Base
+  - GooglePlaces (9.3.0)
 
 DEPENDENCIES:
   - composeApp (from `../composeApp`)
   - Google-Maps-iOS-Utils (= 6.0.0)
   - GoogleMaps (= 9.1.1)
+  - GooglePlaces (= 9.3.0)
 
 SPEC REPOS:
   trunk:
     - Google-Maps-iOS-Utils
     - GoogleMaps
+    - GooglePlaces
 
 EXTERNAL SOURCES:
   composeApp:
     :path: "../composeApp"
 
 SPEC CHECKSUMS:
-  composeApp: 86b07e976c9d80563e1f68e2f0e4aa802c5de52a
+  composeApp: c24d6ea09b0cb0b931cd66609301d11055b3acd6
   Google-Maps-iOS-Utils: cfe6a0239c7ca634b7e001ad059a6707143dc8dc
   GoogleMaps: 80ea184ed6bf44139f383a8b0e248ba3ec1cc8c9
+  GooglePlaces: 310d8c240eb4bf7aaeecec0de71fe75d086dbf4a
 
-PODFILE CHECKSUM: 0e180c9cb71d530437d144de18d0a6bf3af763cd
+PODFILE CHECKSUM: 31b997ddfe90187bf6156185b906431e47c6a05d
 
 COCOAPODS: 1.16.2

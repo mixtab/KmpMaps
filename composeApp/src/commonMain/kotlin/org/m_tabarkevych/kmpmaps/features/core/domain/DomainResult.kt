@@ -1,40 +1,50 @@
 
 package org.m_tabarkevych.kmpmaps.features.core.domain
 
-sealed interface DomainResult<out D, out E: Error> {
-    data class Success<out D>(val data: D): DomainResult<D, Nothing>
-    data class Error<out E: org.m_tabarkevych.kmpmaps.features.core.domain.Error>(val error: E):
-        DomainResult<Nothing, E>
+sealed class DomainResult<out T : Any> {
+
+    data class Success<out T : Any>(val data: T) : DomainResult<T>()
+    data class Failure(val domainError: DataError) : DomainResult<Nothing>()
 }
 
-inline fun <T, E: Error, R> DomainResult<T, E>.map(map: (T) -> R): DomainResult<R, E> {
-    return when(this) {
-        is DomainResult.Error -> DomainResult.Error(error)
-        is DomainResult.Success -> DomainResult.Success(map(data))
+val <T : Any> DomainResult<T>.isSuccess
+    get() = this is DomainResult.Success
+
+val <T : Any> DomainResult<T>.isFailure
+    get() = this is DomainResult.Failure
+
+inline fun <T : Any> DomainResult<T>.onSuccess(block: (T) -> Unit): DomainResult<T> {
+    if (isSuccess) block((this as DomainResult.Success<T>).data)
+    return this
+}
+
+inline fun <T : Any> DomainResult<T>.onFailure(block: (DataError) -> Unit): DomainResult<T> {
+    if (isFailure) block((this as DomainResult.Failure).domainError)
+    return this
+}
+
+inline fun <T : Any, R : Any> DomainResult<T>.map(transform: (T) -> R): DomainResult<R> {
+    return when (this) {
+        is DomainResult.Success -> DomainResult.Success(transform(this.data))
+        is DomainResult.Failure -> this
     }
 }
 
-fun <T, E: Error> DomainResult<T, E>.asEmptyDataResult(): EmptyResult<E> {
-    return map {  }
-}
-
-inline fun <T, E: Error> DomainResult<T, E>.onSuccess(action: (T) -> Unit): DomainResult<T, E> {
-    return when(this) {
-        is DomainResult.Error -> this
-        is DomainResult.Success -> {
-            action(data)
-            this
-        }
-    }
-}
-inline fun <T, E: Error> DomainResult<T, E>.onError(action: (E) -> Unit): DomainResult<T, E> {
-    return when(this) {
-        is DomainResult.Error -> {
-            action(error)
-            this
-        }
-        is DomainResult.Success -> this
+inline fun <T : Any> DomainResult<T>.getOr(block: (error: DomainResult.Failure) -> T): T {
+    return when (this) {
+        is DomainResult.Failure -> block(this)
+        is DomainResult.Success -> this.data
     }
 }
 
-typealias EmptyResult<E> = DomainResult<Unit, E>
+fun <T : Any> DomainResult<T>.getOrNull(): T? {
+    return when (this) {
+        is DomainResult.Failure -> null
+        is DomainResult.Success -> this.data
+    }
+}
+
+fun <R : Any, T : R> DomainResult<T>.getOrDefault(defaultValue: R): R {
+    if (isFailure) return defaultValue
+    return (this as DomainResult.Success<T>).data
+}

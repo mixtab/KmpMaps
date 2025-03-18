@@ -2,6 +2,7 @@ package org.m_tabarkevych.kmpmaps.features.marker.presentation.markers
 
 import androidx.lifecycle.viewModelScope
 import kmpmaps.composeapp.generated.resources.Res
+import kmpmaps.composeapp.generated.resources.copied_to_clipboard
 import kmpmaps.composeapp.generated.resources.marker_deleted
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -64,6 +65,7 @@ class MarkersViewModel(
                     val link =
                         "http://maps.google.com/maps?daddr=${marker.latitude},${marker.longitude}"
                     setUiEffect { MarkersUiEffect.CopyToClipboard(link) }
+                    setUiEffect { MarkersUiEffect.ShowMessage(Res.string.copied_to_clipboard) }
                 }
 
                 MarkerOption.DELETE -> {

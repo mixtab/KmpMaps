@@ -5,6 +5,7 @@ import org.m_tabarkevych.kmpmaps.features.map.domain.model.SearchResult
 
 fun AutocompletePrediction.toSearchResult() = SearchResult(
     this.placeId,
+
     this.getPrimaryText(null).toString(),
     this.getSecondaryText(null).toString(),
     this.distanceMeters?:0

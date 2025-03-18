@@ -1,5 +1,6 @@
 package org.m_tabarkevych.kmpmaps.features.core.data.database
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import org.m_tabarkevych.kmpmaps.features.marker.data.database.dao.MarkerDao
@@ -12,7 +13,7 @@ import org.m_tabarkevych.kmpmaps.features.marker.data.database.enitity.MarkerEnt
 /*@TypeConverters(
     StringListTypeConverter::class
 )*/
-/*@ConstructedBy(KmpMapsDatabaseConstructor::class)*/
+@ConstructedBy(KmpMapsDatabaseConstructor::class)
 abstract class KmpMapsDatabase: RoomDatabase() {
     abstract val markerDao: MarkerDao
 

@@ -20,15 +20,15 @@ class MarkerRepository(
         }
     }
 
-    override suspend fun getMarker(id: String): DomainResult<Marker, DataError.Remote> {
+    override suspend fun getMarker(id: String): DomainResult<Marker> {
         return DomainResult.Success(markerDao.getMarker(id).entityToDomain())
     }
 
-    override suspend fun deleteMarker(id: String): DomainResult<Unit, DataError.Remote> {
+    override suspend fun deleteMarker(id: String): DomainResult<Unit> {
         return DomainResult.Success(markerDao.deleteMarker(id))
     }
 
-    override suspend fun upsertMarker(marker: Marker): DomainResult<Unit, DataError.Remote> {
+    override suspend fun upsertMarker(marker: Marker): DomainResult<Unit> {
         return DomainResult.Success(markerDao.upsert(marker.toEntity()))
     }
 

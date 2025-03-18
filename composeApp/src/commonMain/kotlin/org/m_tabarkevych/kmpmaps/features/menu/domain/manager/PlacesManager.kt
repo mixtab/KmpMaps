@@ -12,18 +12,18 @@ expect class PlacesManager() {
      fun calculateRoute(
         startPosition: Coordinates,
         endPosition: Coordinates,
-    ): Flow<DomainResult<List<RouteInfo>, DataError.Remote>>
+    ): Flow<DomainResult<List<RouteInfo>>>
 
       fun fetchPlacesByText(
         searchValue: String,
         userPosition: Coordinates,
-    ): Flow<DomainResult<List<SearchResult>, DataError.Remote>>
+    ): Flow<DomainResult<List<SearchResult>>>
 
     fun fetchInfoForCoordinates(
         coordinates: Coordinates,
-    ): Flow<DomainResult<SearchResult, DataError.Remote>>
+    ): Flow<DomainResult<SearchResult>>
 
-    fun fetchPlaceInfoById(placeId: String): Flow<DomainResult<Coordinates, DataError.Remote>>
+    fun fetchPlaceInfoById(placeId: String): Flow<DomainResult<Coordinates>>
 
 
 }

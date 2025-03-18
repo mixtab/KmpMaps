@@ -1,5 +1,7 @@
 package org.m_tabarkevych.kmpmaps.features.map.domain.model
 
+import kotlin.math.pow
+
 
 data class RouteInfo (
     val durationInSeconds: Long,
@@ -10,5 +12,19 @@ data class RouteInfo (
     val startCoordinates = routePoints.first()
     val endCoordinates = routePoints.last()
 
-    val googleUrl = "http://maps.google.com/maps?daddr=${endCoordinates.lat},${endCoordinates.lng}"
+    val googleUrl = "google.navigation:q=${endCoordinates.lat},${endCoordinates.lng}"
+
+    fun getFormattedDistance(): String {
+        return if (distanceInMeters >= 1000) {
+            "${(distanceInMeters / 1000.0).roundTo(1)} km"
+        } else {
+            "$distanceInMeters m"
+        }
+    }
+
+    private fun Double.roundTo(decimals: Int): String {
+        val factor = 10.0.pow(decimals)
+        return ((this * factor).toInt() / factor).toString()
+    }
+
 }

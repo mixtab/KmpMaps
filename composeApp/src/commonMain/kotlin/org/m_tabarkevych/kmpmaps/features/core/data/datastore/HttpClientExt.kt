@@ -1,47 +1,48 @@
-package org.m_tabarkevych.kmpmaps.features.core.data.datastore/*
-package org.m_tabarkevych.kmpmaps.features.core.data
+package org.m_tabarkevych.kmpmaps.features.core.data.datastore
 
 import org.m_tabarkevych.kmpmaps.features.core.domain.DataError
-import org.m_tabarkevych.kmpmaps.features.core.domain.Result
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body
 import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.statement.HttpResponse
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.ensureActive
+import org.m_tabarkevych.kmpmaps.features.core.domain.DomainResult
 import kotlin.coroutines.coroutineContext
 
-suspend inline fun <reified T> safeCall(
+suspend inline fun <reified T : Any> safeCall(
     execute: () -> HttpResponse
-): Result<T, DataError.Remote> {
+): DomainResult<T> {
     val response = try {
         execute()
     } catch(e: SocketTimeoutException) {
-        return Result.Error(DataError.Remote.REQUEST_TIMEOUT)
+        return DomainResult.Failure(DataError.REQUEST_TIMEOUT)
     } catch(e: UnresolvedAddressException) {
-        return Result.Error(DataError.Remote.NO_INTERNET)
+        return DomainResult.Failure(DataError.NO_INTERNET)
     } catch (e: Exception) {
         coroutineContext.ensureActive()
-        return Result.Error(DataError.Remote.UNKNOWN)
+        return DomainResult.Failure(DataError.UNKNOWN)
     }
 
     return responseToResult(response)
 }
 
-suspend inline fun <reified T> responseToResult(
+suspend inline fun <reified T: Any> responseToResult(
     response: HttpResponse
-): Result<T, DataError.Remote> {
+): DomainResult<T> {
     return when(response.status.value) {
         in 200..299 -> {
             try {
-                Result.Success(response.body<T>())
+                DomainResult.Success(response.body<T>())
             } catch(e: NoTransformationFoundException) {
-                Result.Error(DataError.Remote.SERIALIZATION)
+                DomainResult.Failure(DataError.SERIALIZATION)
             }
         }
-        408 -> Result.Error(DataError.Remote.REQUEST_TIMEOUT)
-        429 -> Result.Error(DataError.Remote.TOO_MANY_REQUESTS)
-        in 500..599 -> Result.Error(DataError.Remote.SERVER)
-        else -> Result.Error(DataError.Remote.UNKNOWN)
+        408 ->  DomainResult.Failure(DataError.REQUEST_TIMEOUT)
+        429 -> DomainResult.Failure(DataError.TOO_MANY_REQUESTS)
+        in 500..599 ->  DomainResult.Failure(DataError.SERVER)
+        else ->  DomainResult.Failure(DataError.UNKNOWN)
     }
-}*/
+}
+
+

@@ -4,5 +4,6 @@ data class SearchResult (
     val id:String,
     val title:String,
     val description:String,
-    val distanceInMeters:Int
+    val distanceInMeters:Int,
+    val coordinates:Coordinates? = null
 )

@@ -12,6 +12,7 @@ import org.m_tabarkevych.kmpmaps.features.marker.domain.usecase.BookmarkMarkerUs
 import org.m_tabarkevych.kmpmaps.features.marker.domain.usecase.GetMarkersUseCase
 import org.m_tabarkevych.kmpmaps.features.marker.domain.usecase.DeleteMarkerUseCase
 import org.m_tabarkevych.kmpmaps.features.marker.domain.usecase.GetMarkerUseCase
+import org.m_tabarkevych.kmpmaps.features.weather.domain.usecase.GetWeatherDataUseCase
 
 val useCaseModule = module {
     singleOf(::GetLanguageUseCase)
@@ -24,5 +25,5 @@ val useCaseModule = module {
     singleOf(::GetMarkersUseCase)
     singleOf(::DeleteMarkerUseCase)
     singleOf(::GetMarkerUseCase)
-
+    singleOf(::GetWeatherDataUseCase)
 }
