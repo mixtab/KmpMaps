@@ -1,36 +1,26 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="search_hint">Пошук...</string>
     <string name="close_hint">Очистити пошук</string>
     <string name="search_results">Результати пошуку</string>
-    <string name="favorites">Вибране</string>
-    <string name="no_search_results">На жаль, за вашим запитом немає жодної книги.</string>
-    <string name="no_favorite_books">Поки що немає обраних книг.</string>
-    <string name="book_cover">Обкладинка книги</string>
-    <string name="rating">Рейтинг</string>
-    <string name="pages">Сторінки</string>
     <string name="languages">Мови</string>
-    <string name="synopsis">Анотація</string>
+    <string name="synopsis">Синопсис</string>
     <string name="go_back">Повернутися назад</string>
-    <string name="mark_as_favorite">Додати до вибраного</string>
-    <string name="remove_from_favorites">Видалити з вибраного</string>
-    <string name="description_unavailable">Опис недоступний.</string>
-    <string name="error_disk_full">На жаль, здається, ваш диск заповнений.</string>
-    <string name="error_unknown">На жаль, сталася помилка.</string>
-    <string name="error_request_timeout">Час запиту вичерпано.</string>
-    <string name="error_no_internet">Не вдалося підключитися до сервера, перевірте своє інтернет-з'єднання.</string>
-    <string name="error_too_many_requests">Схоже, ваш ліміт перевищено.</string>
+    <string name="error_disk_full">Ой, здається, ваш диск заповнений.</string>
+    <string name="error_unknown">Ой, щось пішло не так.</string>
+    <string name="error_request_timeout">Час очікування запиту вичерпано.</string>
+    <string name="error_no_internet">Не вдалося з'єднатися з сервером, перевірте підключення до інтернету.</string>
+    <string name="error_too_many_requests">Здається, ваша квота вичерпана.</string>
     <string name="error_serialization">Не вдалося обробити дані.</string>
 
-    <string name="map_add_your_first_stop">Додайте першу зупинку, щоб почати\n створювати свій маршрут</string>
+    <string name="map_add_your_first_stop">Знайдіть місце для початку\n створення вашого маршруту</string>
 
     <string name="settings_title">Налаштування</string>
     <string name="settings_language">Мова</string>
     <string name="settings_theme">Тема</string>
-    <string name="settings_distance_unit">Одиниця відстані</string>
+    <string name="settings_distance_unit">Одиниця</string>
     <string name="settings_logout">Вийти</string>
 
-    <string name="theme_follow_system">Авто</string>
+    <string name="theme_follow_system">Слідувати за системою</string>
     <string name="theme_light">Світла</string>
     <string name="theme_dark">Темна</string>
 
@@ -41,4 +31,29 @@
     <string name="distance_unit_miles">Милі</string>
 
     <string name="marked_location">Позначене місце</string>
+    <string name="remove_marker">Видалити маркер</string>
+
+    <string name="edit_marker_title">Зберегти/Редагувати маркер</string>
+    <string name="edit_marker_title_label">Назва</string>
+    <string name="edit_marker_comment_label">Коментар (необов'язково)</string>
+    <string name="edit_marker_coordinates">Координати</string>
+    <string name="edit_marker_address">Адресса</string>
+
+    <string name="directions">Маршрут</string>
+    <string name="create_route">Створити маршрут</string>
+    <string name="save_common">Зберегти</string>
+    <string name="cancel_common">Скасувати</string>
+    <string name="add_stops">Додати зупинки</string>
+    <string name="add_new_stop">Додати нову зупинку</string>
+
+    <string name="markers_title">Маркери</string>
+
+    <string name="markers_option_place_options">Опції місця</string>
+    <string name="markers_option_build_route">Прокласти маршрут</string>
+    <string name="markers_option_edit">Редагувати</string>
+    <string name="markers_option_share">Поділитися</string>
+    <string name="markers_option_delete">Видалити</string>
+    <string name="marker_deleted">Маркер видалено</string>
+    <string name="marker_empty_placeholder">У вас ще немає\n маркерів</string>
+    <string name="copied_to_clipboard">Скопійовано в буфер обміну</string>
 </resources>

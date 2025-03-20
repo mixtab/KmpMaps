@@ -10,7 +10,9 @@ import cocoapods.GooglePlaces.GMSPlaceSearchByTextRankPreference
 import cocoapods.GooglePlaces.GMSPlaceSearchByTextRequest
 import cocoapods.GooglePlaces.GMSPlaceSearchByTextResultCallback
 import cocoapods.GooglePlaces.GMSPlacesClient
+import kotlinx.cinterop.CValue
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.cValue
 import kotlinx.cinterop.get
 import kotlinx.cinterop.useContents
 import kotlinx.coroutines.channels.awaitClose
@@ -28,11 +30,13 @@ import platform.CoreLocation.CLGeocoder
 import platform.CoreLocation.CLLocation
 import platform.CoreLocation.CLLocationCoordinate2DMake
 import platform.CoreLocation.CLPlacemark
+import platform.MapKit.MKCoordinateForMapPoint
 import platform.MapKit.MKDirections
 import platform.MapKit.MKDirectionsRequest
 import platform.MapKit.MKLocalSearch
 import platform.MapKit.MKLocalSearchRequest
 import platform.MapKit.MKMapItem
+import platform.MapKit.MKMapPoint
 import platform.MapKit.MKPlacemark
 import platform.MapKit.MKRoute
 
@@ -44,6 +48,8 @@ actual class PlacesManager actual constructor() {
         startPosition: Coordinates,
         endPosition: Coordinates
     ): Flow<DomainResult<List<RouteInfo>>> = callbackFlow {
+        AppLogger.i("Places Manager", "startPosition : $startPosition")
+        AppLogger.i("Places Manager", "endPosition : $endPosition")
         val request = MKDirectionsRequest().apply {
             source = MKMapItem(
                 MKPlacemark(
@@ -57,7 +63,6 @@ actual class PlacesManager actual constructor() {
                     addressDictionary = null
                 )
             )
-            // transportType = MKDirectionsTransportTyp
         }
 
         val directions = MKDirections(request)
@@ -76,10 +81,15 @@ actual class PlacesManager actual constructor() {
 
                 val routePoints = polyline.points()
                 repeat(pointCount) { index ->
-                    val location = routePoints?.get(index)
-                    if (location != null) {
-                        coordinates.add(Coordinates(location.x, location.y))
+                    val location = routePoints?.get(index) ?: return@repeat
+
+                    val mapPoint: CValue<MKMapPoint> = cValue {
+                        this.x = location.x
+                        this.y = location.y
                     }
+                    val coordinate = MKCoordinateForMapPoint(mapPoint)
+
+                    coordinates.add(Coordinates(coordinate.useContents { latitude }, coordinate.useContents { longitude }))
                 }
 
                 RouteInfo(

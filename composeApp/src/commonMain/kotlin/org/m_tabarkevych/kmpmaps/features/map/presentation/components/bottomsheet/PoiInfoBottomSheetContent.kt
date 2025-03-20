@@ -27,6 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kmpmaps.composeapp.generated.resources.Res
+import kmpmaps.composeapp.generated.resources.create_route
+import kmpmaps.composeapp.generated.resources.directions
 import kmpmaps.composeapp.generated.resources.ic_bookmark_filled
 import kmpmaps.composeapp.generated.resources.ic_bookmark_outlined
 import kmpmaps.composeapp.generated.resources.ic_marker
@@ -40,6 +42,7 @@ import org.m_tabarkevych.kmpmaps.features.map.presentation.model.MarkerUi
 
 @Composable
 fun PoiInfoBottomSheetContent(
+    showLoading:Boolean = false,
     currentMarker: MarkerUi,
     onDirectionsClicked: () -> Unit,
     onBookmarkMarkerClicked: () -> Unit,
@@ -48,7 +51,7 @@ fun PoiInfoBottomSheetContent(
 ) {
     val clipboardManager = LocalClipboardManager.current
     Column(
-        Modifier.height((getScreenHeight().value * 0.3).dp)
+        Modifier.height((getScreenHeight().value * 0.35).dp)
             .padding(horizontal = 16.dp)
             .padding(bottom = 16.dp)
     ) {
@@ -80,7 +83,8 @@ fun PoiInfoBottomSheetContent(
         Row(Modifier.fillMaxWidth()) {
             KmpButton(
                 modifier = Modifier.weight(1f),
-                text = "Directions",
+                text = stringResource(Res.string.directions),
+                showLoading = showLoading,
                 onClick = {
                     onDirectionsClicked.invoke()
                 }

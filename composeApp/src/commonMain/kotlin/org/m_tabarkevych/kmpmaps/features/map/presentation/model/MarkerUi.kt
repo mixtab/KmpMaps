@@ -17,6 +17,7 @@ data class MarkerUi(
 ) {
 
     val googleUrl = "http://maps.google.com/maps?daddr=${latitude},${longitude}"
+
     val coordinates  = Coordinates(latitude,longitude)
     companion object {
         fun createMarker(

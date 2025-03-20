@@ -40,7 +40,12 @@ class MapViewModel(
 ) : MVIViewModel<MapUiState, MapUiEvent, MapUiEffect>() {
 
     private val routeInfoState = buildRouteDelegate.routeInfoState
-        .onEach { if (it != null) _mapAction.emit(MapAction.ZoomToBounds(it.routePoints)) }
+        .onEach {
+            _uiState.update { state -> state.copy(showRouteCalculationLoading = false) }
+            AppLogger.i("RouteInfoState updated", it.toString())
+            if (it != null) _mapAction.emit(MapAction.ZoomToBounds(it.routePoints))
+        }
+
 
     private val _uiState = MutableStateFlow(MapUiState())
     override val uiState = combine(
@@ -237,6 +242,7 @@ class MapViewModel(
 
     private fun calculateRoute() {
         viewModelScope.launch {
+            _uiState.update { it.copy(showRouteCalculationLoading = true) }
             buildRouteDelegate.calculateRoute(
                 currentState.userLocation ?: return@launch,
                 Coordinates(

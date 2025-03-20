@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.m_tabarkevych.kmpmaps.features.core.presentation.components.KmpButton
-import org.m_tabarkevych.kmpmaps.features.core.presentation.launchUrl
+import org.m_tabarkevych.kmpmaps.features.core.presentation.launchNavigationByCoordinates
 import org.m_tabarkevych.kmpmaps.features.map.domain.model.RouteInfo
 import kotlin.time.Duration.Companion.seconds
 
@@ -47,7 +47,7 @@ fun RouteInfoBottomSheetContent(
                 modifier = Modifier.weight(1f).padding(16.dp),
                 "Start Navigation"
             ) {
-                launchUrl(routeInfo.googleUrl)
+                launchNavigationByCoordinates(routeInfo.startCoordinates,routeInfo.endCoordinates)
             }
             Text(
                 modifier = Modifier.padding(16.dp)

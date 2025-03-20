@@ -38,7 +38,11 @@
     <string name="edit_marker_title">Save/Edit Marker</string>
     <string name="edit_marker_title_label">Title</string>
     <string name="edit_marker_comment_label">Comment(optional)</string>
+    <string name="edit_marker_coordinates">Coordinates</string>
+    <string name="edit_marker_address">Address</string>
 
+    <string name="directions">Directions</string>
+    <string name="create_route">Create route</string>
     <string name="save_common">Save</string>
     <string name="cancel_common">Cancel</string>
     <string name="add_stops">Add stops</string>

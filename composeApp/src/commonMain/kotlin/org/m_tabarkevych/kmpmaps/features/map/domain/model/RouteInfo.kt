@@ -8,11 +8,8 @@ data class RouteInfo (
     val distanceInMeters:Long,
     val routePoints:List<Coordinates>
 ) {
-
     val startCoordinates = routePoints.first()
     val endCoordinates = routePoints.last()
-
-    val googleUrl = "google.navigation:q=${endCoordinates.lat},${endCoordinates.lng}"
 
     fun getFormattedDistance(): String {
         return if (distanceInMeters >= 1000) {

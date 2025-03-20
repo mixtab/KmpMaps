@@ -22,6 +22,7 @@ data class MapUiState(
     val searchValue: String = "",
     val searchResults: List<SearchResult> = listOf(),
     val currentMarker: MarkerUi? = null,
+    val showRouteCalculationLoading: Boolean = false,
     val markers: List<MarkerUi> = listOf(),
     val bottomSheetFoolExpanded: Boolean = false,
     val routeInfo: RouteInfo? = null,

@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kmpmaps.composeapp.generated.resources.Res
 import kmpmaps.composeapp.generated.resources.compose_multiplatform
+import kmpmaps.composeapp.generated.resources.create_route
 import kmpmaps.composeapp.generated.resources.ic_plus
 import kmpmaps.composeapp.generated.resources.ic_saved_marker
 import kmpmaps.composeapp.generated.resources.markers_title
@@ -148,7 +149,7 @@ fun MenuModalDrawerContent(
             KmpButton(
                 modifier = Modifier.padding(16.dp).align(Alignment.BottomCenter),
                 icon = Res.drawable.ic_plus,
-                text = "Create route",
+                text =  stringResource(Res.string.create_route),
                 onClick = {
                     onCreateRouteClicked.invoke()
                 }

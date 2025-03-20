@@ -34,8 +34,13 @@ import org.m_tabarkevych.kmpmaps.features.map.presentation.model.MarkerUi
 import org.m_tabarkevych.kmpmaps.features.settings.domain.model.Theme
 import platform.CoreLocation.CLLocationCoordinate2D
 import platform.CoreLocation.CLLocationCoordinate2DMake
-import platform.UIKit.UIImage
 import platform.darwin.NSObject
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import cocoapods.GoogleMaps.GMSMarker.Companion.markerImageWithColor
+import platform.UIKit.UIColor
+
 
 @OptIn(ExperimentalForeignApi::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -52,8 +57,9 @@ actual fun GoogleMaps(
     onMapLongClicked: (Coordinates) -> Unit,
     onMarkerClicked: (MarkerUi) -> Unit,
 ) {
-
     val mapView = remember { GMSMapView() }
+    var mapState by remember { mutableStateOf(CurrentMapState()) }
+
     LaunchedEffect(Unit) {
         val cameraPosition = GMSCameraPosition.cameraWithLatitude(
             latitude = 50.450001,
@@ -68,39 +74,30 @@ actual fun GoogleMaps(
             when (action) {
                 is MapAction.ZoomToLocation -> {
                     AppLogger.i("Google maps", "ZoomToLocation")
-                    val userPosition = GMSCameraPosition.cameraWithLatitude(
+                    val cameraPosition = GMSCameraPosition.cameraWithLatitude(
                         latitude = action.location.lat,
                         longitude = action.location.lng,
-                        zoom = mapView.camera.zoom
+                        zoom = 13.0f
                     )
-                    mapView.moveCamera(GMSCameraUpdate.setCamera(userPosition))
+                    mapView.animateToCameraPosition(cameraPosition)
                 }
 
                 is MapAction.ZoomToBounds -> {
                     if (action.bounds.isNotEmpty()) {
-                        AppLogger.i("Google maps", "ZoomToBounds")
-
-                        val path = GMSMutablePath().apply {
-                            action.bounds.forEach { coordinate ->
-                                addCoordinate(
-                                    CLLocationCoordinate2DMake(
-                                        coordinate.lat,
-                                        coordinate.lng
-                                    )
-                                )
-                            }
-                        }
+                        val latitudes = action.bounds.map { it.lat }
+                        val longitudes = action.bounds.map { it.lng }
 
                         val southwest = CLLocationCoordinate2DMake(
-                            action.bounds.first().lat,
-                            action.bounds.first().lng
+                            latitudes.minOrNull() ?: return@collectLatest,
+                            longitudes.minOrNull() ?: return@collectLatest
                         )
                         val northeast = CLLocationCoordinate2DMake(
-                            action.bounds.last().lat,
-                            action.bounds.last().lat
+                            latitudes.maxOrNull() ?: return@collectLatest,
+                            longitudes.maxOrNull() ?: return@collectLatest
                         )
+
                         val bounds = GMSCoordinateBounds(southwest, northeast)
-                        val cameraUpdate = GMSCameraUpdate.fitBounds(bounds, 50.0) // padding 50px
+                        val cameraUpdate = GMSCameraUpdate.fitBounds(bounds, 50.0)
                         mapView.animateWithCameraUpdate(cameraUpdate)
                     }
                 }
@@ -109,38 +106,8 @@ actual fun GoogleMaps(
 
     }
 
-    currentMarker?.let {
-        val marker = GMSMarker().apply {
-            icon = UIImage.imageNamed("ic_marker")
-            setPosition(CLLocationCoordinate2DMake(it.latitude, it.longitude))
-        }
-        marker.setMap(mapView)
-    }
-    markers.forEach { marker ->
-        AppLogger.e("Google Maps", "Add Marker")
-        val marker = GMSMarker().apply {
-            icon = UIImage.imageNamed("ic_marker")
-            setPosition(CLLocationCoordinate2DMake(marker.latitude, marker.longitude))
-        }
-
-        marker.setMap(mapView)
-    }
-
-    routeInfo?.let { info ->
-        val points = info.routePoints.map {
-            CLLocationCoordinate2DMake(it.lat, it.lng)
-        }
-        val path = GMSMutablePath().apply {
-            points.forEach { point ->
-                addCoordinate(point)
-            }
-        }
-
-        AppLogger.e("Google Maps", "Add polyline")
-        GMSPolyline().apply {
-            this.path = path
-            this.map = mapView
-        }
+    LaunchedEffect(currentMarker, markers, routeInfo) {
+        mapState = refreshMapElements(mapView, currentMarker, markers, routeInfo, mapState)
     }
 
     val type = if (isSatelliteView) kGMSTypeHybrid else kGMSTypeNormal
@@ -149,6 +116,7 @@ actual fun GoogleMaps(
 
     val delegate = remember {
         object : NSObject(), GMSMapViewDelegateProtocol {
+
             override fun mapView(mapView: GMSMapView, willMove: Boolean) {
                 if (willMove) onMapClicked.invoke()
             }
@@ -162,11 +130,23 @@ actual fun GoogleMaps(
                 }
             }
 
+            override fun mapView(
+                mapView: GMSMapView,
+                @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+                didTapMarker: GMSMarker
+            ): Boolean {
+                val userData = didTapMarker.userData()
+                AppLogger.i("didTapMarker", "map marker click ${userData}")
+
+                (userData as? MarkerUi)?.run { onMarkerClicked.invoke(userData) }
+                return true
+            }
+
+
         }
     }
     mapView.delegate = delegate
 
-    AppLogger.e("Google Maps", "UIKitView")
     UIKitView(
         modifier = Modifier.fillMaxSize(),
         factory = { mapView },
@@ -177,7 +157,7 @@ actual fun GoogleMaps(
             view.settings.setCompassButton(false)
 
             view.myLocationEnabled = true // show the users dot
-            mapView.userInteractionEnabled = true
+            view.userInteractionEnabled = true
         },
         properties = UIKitInteropProperties(
             interactionMode = UIKitInteropInteractionMode.NonCooperative
@@ -185,7 +165,69 @@ actual fun GoogleMaps(
     )
 }
 
-@Composable
-fun IosTest() {
 
+@OptIn(ExperimentalForeignApi::class)
+fun refreshMapElements(
+    mapView: GMSMapView,
+    currentMarker: MarkerUi?,
+    markers: List<MarkerUi>,
+    routeInfo: RouteInfo?,
+    currentMapState: CurrentMapState
+): CurrentMapState {
+    AppLogger.i("RefreshMapElements", currentMapState.toString())
+
+    var targetMarkerGms: GMSMarker? = null
+    val markersGms: MutableList<GMSMarker> = mutableListOf()
+
+    currentMapState.targetMarkerGms?.setMap(null)
+    currentMapState.markersGms.forEach { it.setMap(null) }
+    currentMapState.route?.setMap(null)
+
+
+    if (currentMarker != null) {
+        targetMarkerGms = GMSMarker().apply {
+            userData = currentMarker
+            icon = markerImageWithColor(UIColor.blueColor())
+            setPosition(
+                CLLocationCoordinate2DMake(currentMarker.latitude, currentMarker.longitude)
+            )
+            map = mapView
+        }
+    }
+
+
+    markersGms.addAll(markers.map { marker ->
+        GMSMarker().apply {
+            userData = marker
+            icon = markerImageWithColor(UIColor.blueColor())
+            setPosition(CLLocationCoordinate2DMake(marker.latitude, marker.longitude))
+            map = mapView
+        }
+    })
+
+    val polyline = routeInfo?.let { route ->
+        AppLogger.e("Google Maps", "Draw Polyline" + route.routePoints)
+        val points = route.routePoints.map {
+            CLLocationCoordinate2DMake(it.lat, it.lng)
+        }
+        val path = GMSMutablePath().apply {
+            points.forEach { point ->
+                addCoordinate(point)
+            }
+        }
+
+        GMSPolyline().apply {
+            strokeColor = UIColor.blueColor
+            strokeWidth = 5.0
+            this.path = path
+            map = mapView
+        }
+    }
+    return CurrentMapState(targetMarkerGms, markersGms, polyline)
 }
+
+data class CurrentMapState @OptIn(ExperimentalForeignApi::class) constructor(
+    val targetMarkerGms: GMSMarker? = null,
+    val markersGms: List<GMSMarker> = listOf(),
+    val route: GMSPolyline? = null
+)

@@ -185,6 +185,7 @@ fun MapScreen(
 
                             MapBottomSheetType.POI_INFO ->
                                 PoiInfoBottomSheetContent(
+                                    showLoading = uiState.showRouteCalculationLoading,
                                     currentMarker =
                                         uiState.currentMarker ?: return@AnimatedContent,
                                     onDirectionsClicked = {

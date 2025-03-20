@@ -30,7 +30,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kmpmaps.composeapp.generated.resources.Res
 import kmpmaps.composeapp.generated.resources.cancel_common
+import kmpmaps.composeapp.generated.resources.create_route
+import kmpmaps.composeapp.generated.resources.edit_marker_address
 import kmpmaps.composeapp.generated.resources.edit_marker_comment_label
+import kmpmaps.composeapp.generated.resources.edit_marker_coordinates
 import kmpmaps.composeapp.generated.resources.edit_marker_title
 import kmpmaps.composeapp.generated.resources.edit_marker_title_label
 import kmpmaps.composeapp.generated.resources.ic_marker
@@ -106,7 +109,7 @@ fun EditMarkerScreen(uiState: EditMarkerUiState, processUiEvent: (EditMarkerUiEv
             )
             Spacer(Modifier.height(16.dp))
             Text(
-                "Coordinates",
+                stringResource(Res.string.edit_marker_coordinates),
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -115,7 +118,11 @@ fun EditMarkerScreen(uiState: EditMarkerUiState, processUiEvent: (EditMarkerUiEv
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(Modifier.height(16.dp))
-            Text("Address", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                stringResource(Res.string.edit_marker_address),
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
             Text(
                 text = uiState.marker?.address ?: "",
                 color = MaterialTheme.colorScheme.onSurfaceVariant

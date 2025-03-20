@@ -24,8 +24,8 @@ class BuildRouteDelegate(
         placesManager.calculateRoute(
             startCoordinates,
             endCoordinates
-        ).collectLatest {
-            it.onSuccess { routes ->
+        ).firstOrNull().let {
+            it?.onSuccess { routes ->
                 _routeInfoState.update { routes.first() }
             }
         }
