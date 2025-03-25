@@ -89,7 +89,10 @@ class MapViewModel(
     }
 
     private fun showMenu() {
-        _uiState.update { it.copy(menuVisible = true) }
+        _uiState.update {
+            it.copy(menuVisible = true)
+        }
+        backToDefaultState()
         setUiEffect { MapUiEffect.ShowMenu }
     }
 
@@ -228,6 +231,7 @@ class MapViewModel(
     private fun handleBookmarkButtonClicked() {
         val marker = currentState.currentMarker ?: return
         viewModelScope.launch {
+            _uiState.update { it.copy(currentMarker = marker.copy(isBookMarked = true)) }
             bookMarkMarkerUseCase.invoke(marker)
             setUiEffect { MapUiEffect.NavigateToEditMarker(marker.id) }
         }

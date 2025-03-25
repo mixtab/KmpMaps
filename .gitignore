@@ -5,6 +5,7 @@
 xcuserdata
 !src/**/build/
 local.properties
+iosApp/iosApp/AppSecrets.plist
 .idea
 .DS_Store
 captures

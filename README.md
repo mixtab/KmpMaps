@@ -11,4 +11,15 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
   you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
 
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+### INSTALLATION
+- Secrets Files
+  - Must create `AppSecrets.plist` from within Xcode - in password vault, for google maps account ID's.
+  - Can get `google-services.json` from Google Cloud Console for google maps account ID's.
+    - Get a [Google Maps API key](https://developers.google.com/maps/documentation/android-sdk/get-api-key)
+- Add to `local.properties` file located in the root directory (create if it doesn't exist):
+  - `MAPS_API_KEY=YOUR_KEY` where `YOUR_KEY` is your key from previous step;
+  - `sdk.dir=YOUR_SDK_PATH` where `YOUR_SDK_PATH` is a path to Android SDK in your system.
+- From root dir, must run `./gradlew :shared:generateDummyFramework`.
+- Must run `pod update` then `pod install` in the `iosApp` folder.
+- Must build the Android app before running the iOS app.
+- 

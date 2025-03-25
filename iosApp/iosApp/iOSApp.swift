@@ -7,10 +7,15 @@ import GooglePlaces
 struct iOSApp: App {
 
     init() {
-        GMSServices.provideAPIKey("AIzaSyAYDqJ1OWT4xqvlY1S2j-f_m3x9_OqmrTE")
-        GMSPlacesClient.provideAPIKey("AIzaSyAYDqJ1OWT4xqvlY1S2j-f_m3x9_OqmrTE")
+        let filePath = Bundle.main.path(forResource: "AppSecrets", ofType: "plist")!
+            let plist = NSDictionary(contentsOfFile: filePath)!
+            let googleMapsApiKey = plist["GOOGLE_MAPS_API_KEY"] as! String
+
+
+        GMSServices.provideAPIKey(googleMapsApiKey)
+        GMSPlacesClient.provideAPIKey(googleMapsApiKey)
     }
-    
+
 
     var body: some Scene {
         WindowGroup {

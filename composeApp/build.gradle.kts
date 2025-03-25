@@ -1,6 +1,8 @@
 
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.compose.internal.utils.localPropertiesFile
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -126,6 +128,14 @@ kotlin {
 }
 
 android {
+    val localProperties = rootProject.file("local.properties")
+    if (localProperties.exists()) {
+        val properties = Properties().apply {
+            load(localProperties.inputStream())
+        }
+        properties.forEach { key, value -> project.extensions.extraProperties[key.toString()] = value }
+    }
+
     namespace = "org.m_tabarkevych.kmpmaps"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
@@ -135,7 +145,17 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+
+        buildFeatures {
+            buildConfig = true
+        }
+
+        manifestPlaceholders["MAPS_API_KEY"] = project.findProperty("MAPS_API_KEY")?:""
+        buildConfigField("String", "MAPS_API_KEY", "\"${ project.findProperty("MAPS_API_KEY")}\"")
+
     }
+
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"

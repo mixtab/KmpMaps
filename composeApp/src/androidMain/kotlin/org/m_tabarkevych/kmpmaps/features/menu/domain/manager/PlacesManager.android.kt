@@ -22,6 +22,7 @@ import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import org.koin.core.component.getScopeId
+import org.m_tabarkevych.kmpmaps.BuildConfig
 import org.m_tabarkevych.kmpmaps.KmpMapsApplication
 import org.m_tabarkevych.kmpmaps.features.core.domain.DataError
 import org.m_tabarkevych.kmpmaps.features.core.domain.DomainResult
@@ -36,7 +37,7 @@ actual class PlacesManager {
 
     private val placesClient: PlacesClient by lazy {
         val context = KmpMapsApplication.instance
-        Places.initialize(context, "AIzaSyAYDqJ1OWT4xqvlY1S2j-f_m3x9_OqmrTE")
+        Places.initialize(context, BuildConfig.MAPS_API_KEY)
         return@lazy Places.createClient(context)
     }
 
@@ -45,7 +46,7 @@ actual class PlacesManager {
         endPosition: Coordinates,
     ): Flow<DomainResult<List<RouteInfo>>> = callbackFlow {
         val mGeoApiContext = GeoApiContext.Builder()
-            .apiKey("AIzaSyAYDqJ1OWT4xqvlY1S2j-f_m3x9_OqmrTE")
+            .apiKey(BuildConfig.MAPS_API_KEY)
             .connectTimeout(DEFAULT_REQUEST_TIME_OUT, TimeUnit.SECONDS)
             .readTimeout(DEFAULT_REQUEST_TIME_OUT, TimeUnit.SECONDS)
             .writeTimeout(DEFAULT_REQUEST_TIME_OUT, TimeUnit.SECONDS)
